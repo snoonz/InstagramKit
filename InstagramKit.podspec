@@ -1,17 +1,16 @@
 Pod::Spec.new do |s|
   s.name         = 'InstagramKit'
-  s.version      = '3.7'
+  s.version      = '3.7.1'
   s.summary      = 'Instagram iOS SDK.'
   s.description  = <<-DESC
-
 * An extensive blocks-based Objective C wrapper for the Instagram API.
                    DESC
 
-  s.homepage     = 'https://github.com/shyambhat/InstagramKit'
+  s.homepage     = 'https://github.com/snoonz/InstagramKit'
   s.license      = 'MIT'
   s.author       = { "Shyam Bhat" => "shyambhat@me.com" }
   s.platform     = :ios, '7.0'
-  s.source       = { :git => "https://github.com/shyambhat/InstagramKit.git", :tag => s.version }
+  s.source       = { :git => "https://github.com/snoonz/InstagramKit.git", :tag => s.version }
   s.source_files  = 'InstagramKit', 'InstagramKit/**/*.{h,m}'
   s.exclude_files = 'InstagramKitDemo'
   s.requires_arc = true
