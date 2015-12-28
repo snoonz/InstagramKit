@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSDate *createdDate;
 @property (nonatomic, copy) NSString *link;
 @property (nonatomic, strong) InstagramComment *caption;
+@property (nonatomic, assign) NSInteger likesCount;
 @property (nonatomic, strong) NSMutableArray *mLikes;
 @property (nonatomic, strong) NSMutableArray *mComments;
 @property (nonatomic, strong) NSMutableArray *mUsersInPhoto;
@@ -65,6 +66,7 @@
         self.createdDate = [[NSDate alloc] initWithTimeIntervalSince1970:[info[kCreatedDate] doubleValue]];
         self.link = [[NSString alloc] initWithString:info[kLink]];
         self.caption = [[InstagramComment alloc] initWithInfo:info[kCaption]];
+        self.likesCount = [(info[kLikes])[kCount] integerValue];
         self.mLikes = [[NSMutableArray alloc] init];
         for (NSDictionary *userInfo in (info[kLikes])[kData]) {
             InstagramUser *user = [[InstagramUser alloc] initWithInfo:userInfo];
@@ -136,11 +138,6 @@
 - (NSArray *)likes
 {
     return [NSArray arrayWithArray:self.mLikes];
-}
-
-- (NSInteger)likesCount
-{
-    return [self.mLikes count];
 }
 
 - (NSArray *)comments
