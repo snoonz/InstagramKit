@@ -33,6 +33,7 @@
 @property (nonatomic, strong) InstagramComment *caption;
 @property (nonatomic, assign) NSInteger likesCount;
 @property (nonatomic, strong) NSMutableArray *mLikes;
+@property (nonatomic, assign) NSInteger commentCount;
 @property (nonatomic, strong) NSMutableArray *mComments;
 @property (nonatomic, strong) NSMutableArray *mUsersInPhoto;
 @property (nonatomic, strong) NSArray *tags;
@@ -68,6 +69,7 @@
         self.caption = [[InstagramComment alloc] initWithInfo:info[kCaption]];
         self.likesCount = [(info[kLikes])[kCount] integerValue];
         self.mLikes = [[NSMutableArray alloc] init];
+        self.commentCount = [(info[kComments])[kCount] integerValue];
         for (NSDictionary *userInfo in (info[kLikes])[kData]) {
             InstagramUser *user = [[InstagramUser alloc] initWithInfo:userInfo];
             [self.mLikes addObject:user];
@@ -145,11 +147,6 @@
     return [NSArray arrayWithArray:self.mComments];
 }
 
-- (NSInteger)commentCount
-{
-    return [self.mComments count];
-}
-
 - (NSArray *)usersInPhoto
 {
     return [NSArray arrayWithArray:self.mUsersInPhoto];
@@ -176,7 +173,9 @@
         self.createdDate = [decoder decodeObjectOfClass:[NSDate class] forKey:kCreatedDate];
         self.link = [decoder decodeObjectOfClass:[NSString class] forKey:kLink];
         self.caption = [decoder decodeObjectOfClass:[NSString class] forKey:kCaption];
+        self.likesCount = [decoder decodeIntegerForKey:[NSString stringWithFormat:@"%@%@",kLikes,kCount]];
         self.mLikes = [[decoder decodeObjectOfClass:[NSArray class] forKey:kLikes] mutableCopy];
+        self.commentCount = [decoder decodeIntegerForKey:[NSString stringWithFormat:@"%@%@",kComments,kCount]];
         self.mComments = [[decoder decodeObjectOfClass:[NSArray class] forKey:kComments] mutableCopy];
         self.mUsersInPhoto = [[decoder decodeObjectOfClass:[NSArray class] forKey:kUsersInPhoto] mutableCopy];
         self.tags = [decoder decodeObjectOfClass:[NSArray class] forKey:kTags];
@@ -220,7 +219,9 @@
     [encoder encodeObject:self.createdDate forKey:kCreatedDate];
     [encoder encodeObject:self.link forKey:kLink];
     [encoder encodeObject:self.caption forKey:kCaption];
+    [encoder encodeInteger:self.likesCount forKey:[NSString stringWithFormat:@"%@%@",kLikes,kCount]];
     [encoder encodeObject:self.mLikes forKey:kLikes];
+    [encoder encodeInteger:self.commentCount forKey:[NSString stringWithFormat:@"%@%@",kComments,kCount]];
     [encoder encodeObject:self.mComments forKey:kComments];
     [encoder encodeObject:self.mUsersInPhoto forKey:kUsersInPhoto];
     [encoder encodeObject:self.tags forKey:kTags];
@@ -258,7 +259,9 @@
     copy->_createdDate = [self.createdDate copy];
     copy->_link = [self.link copy];
     copy->_caption = [self.caption copy];
+    copy->_likesCount = self.likesCount;
     copy->_mLikes = [self.mLikes copy];
+    copy->_commentCount = self.commentCount;
     copy->_mComments = [self.mComments copy];
     copy->_mUsersInPhoto = [self.mUsersInPhoto copy];
     copy->_tags = [self.tags copy];
